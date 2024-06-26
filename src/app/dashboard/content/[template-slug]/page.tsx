@@ -20,9 +20,9 @@ const CreateNewContent = (props: PROPS) => {
   );
 
   return (
-    <div>
+    <div className=" bg-gray-300">
       <Link href="/dashboard">
-        <button className=" m-4 rounded-full shadow-md p-2 bg-black font-bold text-white active:scale-95">
+        <button className=" mt-4 ml-4 rounded-full shadow-md p-2 bg-black font-bold text-white active:scale-95">
           <ArrowLeft className="w-6 h-6" />
         </button>
       </Link>
