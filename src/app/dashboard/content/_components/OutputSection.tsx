@@ -5,10 +5,19 @@ import {
   Editor as EditorType,
 } from "@toast-ui/react-editor";
 import { Copy } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
-const OutputSection = () => {
+interface PROPS {
+  aiOutput: string;
+}
+
+const OutputSection = ({ aiOutput }: PROPS) => {
   const editorRef = useRef<EditorType>(null);
+
+  useEffect(() => {
+    const editorInstance = editorRef.current?.getInstance();
+    editorInstance?.setMarkdown(aiOutput);
+  }, [aiOutput]);
 
   return (
     <div className="bg-white shadow-lg border">
@@ -29,6 +38,7 @@ const OutputSection = () => {
       <Editor
         initialValue="Your result here"
         initialEditType="wysiwyg"
+        height="600px"
         useCommandShortcut={true}
         ref={editorRef}
         onChange={() => {

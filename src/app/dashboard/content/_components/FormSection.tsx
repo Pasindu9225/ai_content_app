@@ -8,9 +8,10 @@ import { useState } from "react";
 interface PROPS {
   selectedTemplate?: TEMPLATE;
   userFormInput: any;
+  loading: boolean;
 }
 
-const FormSection = ({ selectedTemplate, userFormInput }: PROPS) => {
+const FormSection = ({ selectedTemplate, userFormInput, loading }: PROPS) => {
   const [formdata, setFormdata] = useState<any>();
   const onSubmit = (e: any) => {
     e.preventDefault();
@@ -54,8 +55,9 @@ const FormSection = ({ selectedTemplate, userFormInput }: PROPS) => {
         <button
           type="submit"
           className="bg-primary text-white p-2 rounded-md w-full"
+          disabled={loading}
         >
-          Generate
+          {loading ? "Generating..." : "Generate"}
         </button>
       </form>
     </div>

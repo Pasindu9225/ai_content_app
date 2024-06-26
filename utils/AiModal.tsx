@@ -19,16 +19,7 @@ const generationConfig = {
   responseMimeType: "text/plain",
 };
 
-async function run() {
-  const parts = [{ text: "input: " }, { text: "output: " }];
-
-  const result = await model.generateContent({
-    contents: [{ role: "user", parts }],
-    generationConfig,
-    // safetySettings: Adjust safety settings
-    // See https://ai.google.dev/gemini-api/docs/safety-settings
-  });
-  console.log(result.response.text());
-}
-
-run();
+export const chatSession = model.startChat({
+  generationConfig,
+  history: [],
+});

@@ -5,6 +5,8 @@ import FormSection from "../_components/FormSection";
 import OutputSection from "../_components/OutputSection";
 import templates from "@/app/(data)/templates";
 import { ArrowLeft } from "lucide-react";
+import { chatSession } from "../../../../../utils/AiModal";
+import { useState } from "react";
 
 interface PROPS {
   params: {
@@ -12,8 +14,21 @@ interface PROPS {
   };
 }
 const CreateNewContent = (props: PROPS) => {
-  const GenerateAIContent = (userFormInput: any) => {
-    console.log("user input data", userFormInput);
+  const [loading, setLoading] = useState(false);
+  const [aiOutput, setAiOutput] = useState<string>("");
+  const GenerateAIContent = async (userFormInput: any) => {
+    setLoading(true);
+    const SelectedPrompt = selectedTemplate?.aiPrompt;
+
+    const FinalAiPrompt = JSON.stringify(userFormInput) + "," + SelectedPrompt;
+
+    const result = await chatSession.sendMessage(FinalAiPrompt);
+
+    console.log(result.response.text());
+
+    setAiOutput(result?.response.text());
+
+    setLoading(false);
   };
   const selectedTemplate: TEMPLATE | undefined = templates?.find(
     (template) => template.slug == props.params["template-slug"]
@@ -31,9 +46,10 @@ const CreateNewContent = (props: PROPS) => {
         <FormSection
           selectedTemplate={selectedTemplate}
           userFormInput={(v: any) => GenerateAIContent(v)}
+          loading={loading}
         />
         <div className=" col-span-2">
-          <OutputSection />
+          <OutputSection aiOutput={aiOutput} />
         </div>
       </div>
     </div>
